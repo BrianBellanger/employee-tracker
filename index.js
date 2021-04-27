@@ -24,7 +24,7 @@ const start = () => {
     .prompt({
       name: 'action',
       type: 'list',
-      message: '\n\n\nWelcome to UT Bootcamp Employee Tracker\nMain Menu:',
+      message: '\n\n\nWelcome to UT Bootcamp Employee Tracker\nCRUD Menu:',
       choices: [
         'Create',
         'Review',
@@ -226,6 +226,7 @@ const start = () => {
 
 // MENU FUNCTIONS
 
+// Add Department
 function addDepartment(){
   console.log("Add a department:");
   inquirer
@@ -247,6 +248,7 @@ function addDepartment(){
   })
 };
 
+// Add Role
 function addRole(){
   console.log("Add a role:");
   //Get department choices
@@ -284,13 +286,16 @@ function addRole(){
         console.log(`\nNew role '${roleInput.roleTitle}' added`);
         start();
         });
-  })
-});
+    })
+  });
+};
 
+// Add Employee
 function addEmployee(){
   console.log("addEmployee");
 };
 
+// View Department
 function viewDepartment(){
   connection.query('SELECT * FROM department', (err, res) => {
     if (err) throw err;
@@ -300,6 +305,7 @@ function viewDepartment(){
   });
 };
 
+// View Role
 function viewRole(){
   console.log("viewRole");
   connection.query('SELECT * FROM role', (err, res) => {
@@ -310,6 +316,7 @@ function viewRole(){
   });
 };
 
+// View Employee
 function viewEmployee(){
   console.log("viewEmployee");
   connection.query('SELECT * FROM employee', (err, res) => {
