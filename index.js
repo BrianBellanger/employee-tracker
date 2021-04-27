@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
   port: 3306,
   user: 'root',
   password: 'Trance673&',
-  database: 'employeesDB',
+  database: 'employeesdb',
 });
 
 // ESTABLISH CONNECTION
@@ -241,14 +241,51 @@ function addDepartment(){
       connection.query(query, (err, res) => {
         if (err) throw err
         console.log(`\nNew department '${deptInput.deptName}' added`);
-        })
-    start();
+        start();  
+      })
+    
   })
 };
 
 function addRole(){
-  console.log("addRole");
-};
+  console.log("Add a role:");
+  //Get department choices
+  connection.query('SELECT * FROM department', (err, res) => {
+    if (err) throw (err);
+    const deptChoices = res.map((department) => {
+      return {
+        name: department.name,
+        value: department.id
+      }
+    })
+  inquirer
+  .prompt([
+    {
+    type: 'input',
+    name: 'roleTitle',
+    message: 'Please enter the title of the new role:',
+    },
+    {
+    type: 'input',
+    name: 'roleSalary',
+    message: 'Please enter the salary of the new role:',
+    },
+    {
+      type: 'list',
+      name: 'roleDeptId',
+      message: 'Please select the department for the new role:',
+      choices: deptChoices
+    },
+  ])
+  .then((roleInput) => {
+    const query = `INSERT INTO role (title, salary, department_id) VALUES ('${roleInput.roleTitle}', '${roleInput.roleSalary}', '${roleInput.roleDeptID}')`
+      connection.query(query, (err, res) => {
+        if (err) throw err
+        console.log(`\nNew role '${roleInput.roleTitle}' added`);
+        start();
+        });
+  })
+});
 
 function addEmployee(){
   console.log("addEmployee");
